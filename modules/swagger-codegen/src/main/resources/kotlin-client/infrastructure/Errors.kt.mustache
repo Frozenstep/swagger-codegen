@@ -1,42 +1,21 @@
 @file:Suppress("unused")
-package {{packageName}}.infrastructure
+package io.swagger.client.infrastructure
 
 import java.lang.RuntimeException
 
-open class ClientException : RuntimeException {
+open class ApiException : RuntimeException {
 
-    /**
-     * Constructs an [ClientException] with no detail message.
-     */
+    var statusCode = 0
+
     constructor() : super()
 
-    /**
-     * Constructs an [ClientException] with the specified detail message.
-
-     * @param   message   the detail message.
-     */
     constructor(message: kotlin.String) : super(message)
 
-    companion object {
-        private const val serialVersionUID: Long = 123L
+    constructor(message: kotlin.String, statusCode: Int) : super(message){
+        this.statusCode = statusCode
     }
-}
-
-open class ServerException : RuntimeException {
-
-    /**
-     * Constructs an [ServerException] with no detail message.
-     */
-    constructor() : super()
-
-    /**
-     * Constructs an [ServerException] with the specified detail message.
-
-     * @param   message   the detail message.
-     */
-    constructor(message: kotlin.String) : super(message)
 
     companion object {
-        private const val serialVersionUID: Long = 456L
+        private const val serialVersionUID: Long = 789L
     }
 }
