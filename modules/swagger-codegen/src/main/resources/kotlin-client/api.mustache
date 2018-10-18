@@ -20,7 +20,7 @@ class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(base
     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     */{{#returnType}}
     @Suppress("UNCHECKED_CAST"){{/returnType}}
-    fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    fun {{operationId}}(authorization: kotlin.String?{{#allParams}}, {{paramName}}: {{{dataType}}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         val localVariableBody: kotlin.Any? = {{#hasBodyParam}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}null{{/hasFormParams}}{{#hasFormParams}}mapOf({{#formParams}}"{{{baseName}}}" to {{paramName}}{{#hasMore}}, {{/hasMore}}{{/formParams}}){{/hasFormParams}}{{/hasBodyParam}}
         val localVariableQuery: MultiValueMap = {{^hasQueryParams}}mapOf(){{/hasQueryParams}}{{#hasQueryParams}}mapOf({{#queryParams}}"{{baseName}}" to {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{paramName}}"){{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}){{/hasQueryParams}}
         
@@ -29,6 +29,10 @@ class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(base
         val localVariableHeaders: kotlin.collections.MutableMap<kotlin.String,kotlin.String> = mutableMapOf({{#hasHeaderParams}}{{#headerParams}}"{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}"){{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/headerParams}}{{/hasHeaderParams}})
         localVariableHeaders.putAll(contentHeaders)
         localVariableHeaders.putAll(acceptsHeaders)
+        
+        if(authorization != null){
+        	localVariableHeaders.putAll(mapOf("authorization" to authorization))
+        }
         
         val localVariableConfig = RequestConfig(
             RequestMethod.{{httpMethod}},
